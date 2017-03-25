@@ -1,0 +1,69 @@
+
+#header{
+	height:50px;
+	background-image:url(../images/1.jpg);
+}
+
+#header{
+	text-align:right;
+}
+
+/*定义header里面的链接*/
+/*a在默认的时候是内联元素，内联元素是不可以设置宽和高的*/
+#header a{
+	/*border:1px solid black;*/
+	color:white;
+	text-decoration:none;
+	line-height:50px;
+	margin-right:20px;
+	/*display:inline-block;*//*将元素设置为内联块状元素*/
+}
+
+#header a:hover{
+	font-weight:bold;
+	font-size:20px;
+	text-decoration:underline;
+}
+
+/*主体中表格样式*/
+#dataList{
+	
+	width:910px;
+	border:1px solid #CCC;
+	border-collapse:collapse;/*设置边框合并*/
+	text-align:center;/*设置表格中的内容居中*/
+	margin:10px auto;/*设置表格在页面居中(定宽和块状两个条件的元素)*/
+	/*margin:top right bottom left*/
+}
+
+#dataList td{
+	border:1px solid #CCC;
+	height:32px;
+	vertical-align:center;/*设置表格中的内容垂直居中*/
+}
+
+#dataList tr:hover{
+	background-color:#f7f9fd;
+}
+
+#dataList tr{
+	background-color:white;/*设置背景颜色*/
+}
+/*设置表格头的样式*/
+#dataList tr.headerData{
+	height:40px; 
+	font-weight:bold;
+	background-color:#fdedce;
+}
+
+/*******************************************************************/
+
+#footer{
+	width:100%;
+	height:80px;
+	border:1px solid red;
+	background-color:green;
+	position:absolute;
+	bottom:20px;
+}
+

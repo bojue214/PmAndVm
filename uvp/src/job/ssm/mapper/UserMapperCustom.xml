@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="job.ssm.mapper.UserMapperCustom" >
+
+   <!-- 定义用户查询的sql片段，就是用户查询条件 -->
+   <sql id="query_users_where">
+	<!-- 使用动态sql，通过if判断，满足条件进行sql拼接
+   		 用户查询条件通过UserQueryVo包装对象 中UserCustom属性传递 -->
+   		
+   		<if test="userCustom != null">
+   		   <if test="userCustom != null and userCustom.id != 0 ">
+   				user.id = #{userCustom.id}
+   		   </if>
+<!--    			<if test="userCustom != null and userCustom.username != '' ">
+   				user.username LIKE '%${userCustom.username}%'
+   			</if>
+   			 <if test="userCustom != null and userCustom.isroot != '' ">
+   				user.isroot = #{userCustom.isroot}
+   			</if> -->
+   		</if>
+<!--    <where>
+   		   	<if test="userCustom != null and userCustom.isroot != '' ">
+   				user.isroot = #{userCustom.isroot}
+   			</if>
+   		</where> -->
+   		
+   </sql>
+  	
+  	<!-- 用户列表查询 -->
+  	<!-- parameterType传入包装对象(包装了查询条件)
+  		resultType建议使用扩展对象
+  	 -->
+  	<select id="findUsersList" parameterType="job.ssm.po.UserQueryVo"
+  		 resultType="job.ssm.po.UserCustom">
+  		SELECT user.* FROM user  
+  		<where>
+  			<include refid="query_users_where"></include>
+  		</where>
+<!--   		<if test="page != null">
+   				limit #{page.startPos},#{page.pageSize}
+   		</if>   -->
+  	</select>
+  	
+  	<!-- 获取密码 -->
+  	<select id="findUserPassword" parameterType="job.ssm.po.UserQueryVo" resultType="String">
+  		SELECT PASSWORD FROM USER WHERE user.username = #{userCustom.username}
+  	</select>
+  	
+  	<!-- 查询用户 -->
+  	<select id="findUserByUsernameAndPassword" parameterType="job.ssm.po.UserQueryVo" 
+  			resultType="job.ssm.po.UserCustom">
+  		SELECT * FROM USER 
+  		WHERE user.username = #{userCustom.username} AND user.password = #{userCustom.password}
+  		
+  	</select>
+  	
+  	<!-- 取得取得表中相应的记录总数 -->
+<!--   	<select id="getItemsCount" parameterType="job.ssm.po.UserQueryVo"
+  		resultType="int">
+  	 	SELECT count(*) FROM items  
+  		<where>
+  			<include refid="query_users_where"></include>
+  		</where>
+  	</select> -->
+  	
+</mapper>
+
+

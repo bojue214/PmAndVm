@@ -1,0 +1,119 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd ">
+
+	<!-- 对静态资源的解析 -->
+	<mvc:resources location="/resource/**" mapping="/resource/**" />
+	
+	<!-- 使用组件进行注解下的扫描 -->
+	<!-- 向spring容器中加载Handler -->
+	<context:component-scan base-package="job.ssm.controller" />
+
+	<!-- mvc注解驱动,配置了这个就不需要上面的映射器和适配器的配置 ,其中加载了许多东西 -->
+	<!-- 将转化器和检验器注入到处理器适配器中 -->
+<!-- 	<mvc:annotation-driven conversion-service="conversionService"
+		validator="validator" /> -->
+	<mvc:annotation-driven />
+
+	<!-- 视图解析器 -->
+	<!-- 解析jsp 默认使用jstl标签 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 配置jsp路径的前缀 -->
+		<property name="prefix" value="/WEB-INF/views/" />
+		<!-- 配置jsp路径的后缀 -->
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- 自定义参数绑定 -->
+<!-- 	<bean id="conversionService"
+		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		转换器
+		<property name="converters">
+			<list>
+				日期类型转换
+				<bean class="job.ssm.controller.converter.CustomDateConverter" />
+			</list>
+		</property>
+	</bean> -->
+
+	<!-- 文件上传 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设置上传文件的最大尺寸为5MB -->
+		<property name="maxUploadSize">
+			<value>5242880</value>
+		</property>
+	</bean>
+
+	<!-- 校验器 -->
+<!-- 	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		hibernate校验器
+		<property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
+		指定校验使用的资源文件，在文件中配置校验错误信息，如果不指定则默认使用classpath下的ValidationMessages.properties
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
+	校验错误信息配置文件
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		资源文件名
+		<property name="basenames">
+			<list>
+				<value>classpath:CustomValidationMessages</value>
+			</list>
+		</property>
+		资源文件编码格式
+		<property name="fileEncodings" value="utf-8" />
+		资源文件编码格式
+		<property name="fileEncodings">
+			<props>
+				<prop key="classpath:CustomValidationMessages">UTF-8</prop>
+			</props>
+		</property>
+		对资源文件内容缓存时间，单位秒
+		<property name="cacheSeconds" value="120" />
+	</bean>
+ -->
+	<!-- 配置全局异常器 -->
+<!-- 	<bean class="job.ssm.exception.CustomExceptionResolver" /> -->
+
+	<!--拦截器 -->
+	<mvc:interceptors>
+		<!-- 多个拦截器,顺序执行 -->
+		<!-- 登陆认证拦截器 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<!-- 对静态资源进行放行 -->
+			<mvc:exclude-mapping path="/resource/**"/>
+			<mvc:exclude-mapping path="/login.action"/>
+			<bean class="job.ssm.interceptor.LoginInterceptor"></bean>
+		</mvc:interceptor>
+		
+<!-- 		<mvc:interceptor>
+			/**表示所有url包括子url路径
+			<mvc:mapping path="/**" />
+			<bean class="job.ssm.interceptor.HandlerInterceptor1"></bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="job.ssm.interceptor.HandlerInterceptor2"></bean>
+		</mvc:interceptor> -->
+		
+	</mvc:interceptors>
+	
+	
+
+</beans>
+

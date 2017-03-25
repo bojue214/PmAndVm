@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="job.ssm.mapper.PmMapper" >
+  <resultMap id="BaseResultMap" type="job.ssm.po.Pm" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="usedmem" property="usedmem" jdbcType="INTEGER" />
+    <result column="avaliablemem" property="avaliablemem" jdbcType="INTEGER" />
+    <result column="useddisk" property="useddisk" jdbcType="INTEGER" />
+    <result column="avaliabledisk" property="avaliabledisk" jdbcType="INTEGER" />
+    <result column="numbers" property="numbers" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, userid, usedmem, avaliablemem, useddisk, avaliabledisk, numbers
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="job.ssm.po.PmExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pm
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pm
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pm
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="job.ssm.po.PmExample" >
+    delete from pm
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="job.ssm.po.Pm" >
+    insert into pm (id, userid, usedmem, 
+      avaliablemem, useddisk, avaliabledisk, 
+      numbers)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{usedmem,jdbcType=INTEGER}, 
+      #{avaliablemem,jdbcType=INTEGER}, #{useddisk,jdbcType=INTEGER}, #{avaliabledisk,jdbcType=INTEGER}, 
+      #{numbers,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="job.ssm.po.Pm" >
+    insert into pm
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="usedmem != null" >
+        usedmem,
+      </if>
+      <if test="avaliablemem != null" >
+        avaliablemem,
+      </if>
+      <if test="useddisk != null" >
+        useddisk,
+      </if>
+      <if test="avaliabledisk != null" >
+        avaliabledisk,
+      </if>
+      <if test="numbers != null" >
+        numbers,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="usedmem != null" >
+        #{usedmem,jdbcType=INTEGER},
+      </if>
+      <if test="avaliablemem != null" >
+        #{avaliablemem,jdbcType=INTEGER},
+      </if>
+      <if test="useddisk != null" >
+        #{useddisk,jdbcType=INTEGER},
+      </if>
+      <if test="avaliabledisk != null" >
+        #{avaliabledisk,jdbcType=INTEGER},
+      </if>
+      <if test="numbers != null" >
+        #{numbers,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="job.ssm.po.PmExample" resultType="java.lang.Integer" >
+    select count(*) from pm
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update pm
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userid != null" >
+        userid = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.usedmem != null" >
+        usedmem = #{record.usedmem,jdbcType=INTEGER},
+      </if>
+      <if test="record.avaliablemem != null" >
+        avaliablemem = #{record.avaliablemem,jdbcType=INTEGER},
+      </if>
+      <if test="record.useddisk != null" >
+        useddisk = #{record.useddisk,jdbcType=INTEGER},
+      </if>
+      <if test="record.avaliabledisk != null" >
+        avaliabledisk = #{record.avaliabledisk,jdbcType=INTEGER},
+      </if>
+      <if test="record.numbers != null" >
+        numbers = #{record.numbers,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update pm
+    set id = #{record.id,jdbcType=INTEGER},
+      userid = #{record.userid,jdbcType=INTEGER},
+      usedmem = #{record.usedmem,jdbcType=INTEGER},
+      avaliablemem = #{record.avaliablemem,jdbcType=INTEGER},
+      useddisk = #{record.useddisk,jdbcType=INTEGER},
+      avaliabledisk = #{record.avaliabledisk,jdbcType=INTEGER},
+      numbers = #{record.numbers,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="job.ssm.po.Pm" >
+    update pm
+    <set >
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="usedmem != null" >
+        usedmem = #{usedmem,jdbcType=INTEGER},
+      </if>
+      <if test="avaliablemem != null" >
+        avaliablemem = #{avaliablemem,jdbcType=INTEGER},
+      </if>
+      <if test="useddisk != null" >
+        useddisk = #{useddisk,jdbcType=INTEGER},
+      </if>
+      <if test="avaliabledisk != null" >
+        avaliabledisk = #{avaliabledisk,jdbcType=INTEGER},
+      </if>
+      <if test="numbers != null" >
+        numbers = #{numbers,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="job.ssm.po.Pm" >
+    update pm
+    set userid = #{userid,jdbcType=INTEGER},
+      usedmem = #{usedmem,jdbcType=INTEGER},
+      avaliablemem = #{avaliablemem,jdbcType=INTEGER},
+      useddisk = #{useddisk,jdbcType=INTEGER},
+      avaliabledisk = #{avaliabledisk,jdbcType=INTEGER},
+      numbers = #{numbers,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
